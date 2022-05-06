@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        
+        <variable
+            name="tvModel"
+            type="com.homework.nonton.models.TVModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_4sdp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/iv_image_tv_list" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/background_list"
+            android:paddingBottom="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_name_tv_list" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/iv_image_tv_list"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:imageURL="@{tvModel.posterPath}"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius="@dimen/_5sdp" />
+
+        <TextView
+            android:id="@+id/tv_name_tv_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:fontFamily="@font/ubuntu_medium"
+            android:includeFontPadding="false"
+            android:paddingTop="@dimen/_8sdp"
+            android:text="@{tvModel.name}"
+            android:maxLines="1"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_image_tv_list"
+            app:layout_constraintTop_toTopOf="@id/iv_image_tv_list" />
+
+        <TextView
+            android:id="@+id/tv_original_name_tv_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:fontFamily="@font/ubuntu_regular"
+            android:includeFontPadding="false"
+            android:text='@{"Original name: " + tvModel.originalName}'
+            android:maxLines="1"
+            android:textColor="@color/colorTextOther"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_name_tv_list"
+            app:layout_constraintStart_toStartOf="@+id/tv_name_tv_list"
+            app:layout_constraintTop_toBottomOf="@id/tv_name_tv_list" />
+
+        <TextView
+            android:id="@+id/tv_language_tv_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:fontFamily="@font/ubuntu_regular"
+            android:includeFontPadding="false"
+            android:text='@{"Language: " + tvModel.originalLanguage}'
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintEnd_toEndOf="@id/tv_name_tv_list"
+            app:layout_constraintStart_toStartOf="@id/tv_name_tv_list"
+            app:layout_constraintTop_toBottomOf="@id/tv_original_name_tv_list" />
+
+        <TextView
+            android:id="@+id/tv_date_tv_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:fontFamily="@font/ubuntu_regular"
+            android:includeFontPadding="false"
+            android:text='@{"Started on: " + tvModel.firstAirDate}'
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/colorTextSecondary"
+            app:layout_constraintEnd_toEndOf="@id/tv_name_tv_list"
+            app:layout_constraintStart_toStartOf="@id/tv_name_tv_list"
+            app:layout_constraintTop_toBottomOf="@id/tv_language_tv_list" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
