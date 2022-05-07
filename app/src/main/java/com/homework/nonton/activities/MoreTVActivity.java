@@ -3,8 +3,6 @@ package com.homework.nonton.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.homework.nonton.R;
-import com.homework.nonton.adapters.TVAdapter;
+import com.homework.nonton.adapters.TVAdapterMore;
 import com.homework.nonton.databinding.ActivityMoreTvBinding;
 import com.homework.nonton.listeners.TVListener;
 import com.homework.nonton.models.TVModel;
@@ -27,7 +25,7 @@ public class MoreTVActivity extends AppCompatActivity implements TVListener {
     private ActivityMoreTvBinding activityMoreTvBinding;
     private TVViewModel tvViewModel;
     private List<TVModel> tvModels = new ArrayList<>();
-    private TVAdapter tvAdapter;
+    private TVAdapterMore tvAdapterMore;
     private int currentPage = 1;
     private int totalAvailablePages = 1;
 
@@ -44,8 +42,8 @@ public class MoreTVActivity extends AppCompatActivity implements TVListener {
         activityMoreTvBinding.rvListMoreTv.setDrawingCacheEnabled(true);
         activityMoreTvBinding.rvListMoreTv.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         tvViewModel = new ViewModelProvider(this).get(TVViewModel.class);
-        tvAdapter = new TVAdapter(tvModels, this);
-        activityMoreTvBinding.rvListMoreTv.setAdapter(tvAdapter);
+        tvAdapterMore = new TVAdapterMore(tvModels, this);
+        activityMoreTvBinding.rvListMoreTv.setAdapter(tvAdapterMore);
         activityMoreTvBinding.rvListMoreTv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -70,7 +68,7 @@ public class MoreTVActivity extends AppCompatActivity implements TVListener {
                 if (tvResponse.getResults() != null) {
                     int oldCount = tvModels.size();
                     tvModels.addAll(tvResponse.getResults());
-                    tvAdapter.notifyItemRangeInserted(oldCount, tvModels.size());
+                    tvAdapterMore.notifyItemRangeInserted(oldCount, tvModels.size());
                 }
             }
         });
