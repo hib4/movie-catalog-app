@@ -1,5 +1,6 @@
 package com.homework.nonton.network;
 
+import com.homework.nonton.responses.MovieResponse;
 import com.homework.nonton.responses.TVDetailsResponse;
 import com.homework.nonton.responses.TVResponse;
 
@@ -15,5 +16,8 @@ public interface ApiService {
 
     @GET("tv/{id}")
     Call<TVDetailsResponse> getTVPopularDetails(@Path("id") String ID, @Query("api_key") String API_KEY);
+
+    @GET("movie/popular")
+    Call<MovieResponse> getMoviePopular(@Query("api_key") String API_KEY, @Query("page") int PAGE);
 
 }

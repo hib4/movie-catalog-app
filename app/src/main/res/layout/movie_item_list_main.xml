@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="tvModel"
-            type="com.homework.nonton.models.TVModel" />
+            name="movieModel"
+            type="com.homework.nonton.models.MovieModel" />
 
     </data>
 
@@ -17,30 +17,30 @@
         android:padding="@dimen/_5sdp">
 
         <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/iv_image_tv_main"
+            android:id="@+id/iv_image_movie_main"
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_130sdp"
-            android:imageURL="@{tvModel.posterPath}"
+            android:imageURL="@{movieModel.posterPath}"
             android:scaleType="centerCrop"
             app:riv_corner_radius="@dimen/_5sdp"/>
 
         <TextView
-            android:id="@+id/tv_name_tv_main"
+            android:id="@+id/tv_name_movie_main"
             android:layout_width="@dimen/_90sdp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_2sdp"
-            android:text="@{tvModel.name}"
+            android:text="@{movieModel.title}"
             android:maxLines="2"
             android:fontFamily="@font/ubuntu_medium"
             android:textSize="@dimen/_13sdp"
             android:textColor="@color/colorTextIcons"/>
 
         <TextView
-            android:id="@+id/tv_language_tv_main"
+            android:id="@+id/tv_language_movie_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_2sdp"
-            android:text="@{tvModel.originalLanguage}"
+            android:text="@{movieModel.originalLanguage}"
             android:fontFamily="@font/ubuntu_regular"
             android:textSize="@dimen/_13sdp"
             android:textColor="@color/colorTextSecondary"/>
