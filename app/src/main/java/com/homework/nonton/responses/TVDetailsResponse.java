@@ -1,7 +1,7 @@
 package com.homework.nonton.responses;
 
 import com.google.gson.annotations.SerializedName;
-import com.homework.nonton.models.TVDetailsModel;
+import com.homework.nonton.models.GenresItemTV;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class TVDetailsResponse {
     private String type;
 
     @SerializedName("genres")
-    private List<TVDetailsModel> genres;
+    private List<GenresItemTV> genres;
 
     @SerializedName("popularity")
     private double popularity;
@@ -91,7 +91,7 @@ public class TVDetailsResponse {
         return type;
     }
 
-    public List<TVDetailsModel> getGenres() {
+    public List<GenresItemTV> getGenres() {
         return genres;
     }
 

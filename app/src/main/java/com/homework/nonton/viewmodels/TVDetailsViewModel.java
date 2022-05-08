@@ -17,4 +17,5 @@ public class TVDetailsViewModel extends ViewModel {
     public LiveData<TVDetailsResponse> getPopularTVDetails(String ID, String API_KEY) {
         return tvDetailsRepository.getPopularTVDetails(ID, API_KEY);
     }
+
 }

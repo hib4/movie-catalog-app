@@ -1,15 +1,21 @@
 package com.homework.nonton.models;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class TVDetailsModel {
+public class GenresItemTV {
 
 	@SerializedName("name")
 	private String name;
 
-	public String getName() {
+	@SerializedName("id")
+	private int id;
+
+	public String getName(){
 		return name;
+	}
+
+	public int getId(){
+		return id;
 	}
 
 }

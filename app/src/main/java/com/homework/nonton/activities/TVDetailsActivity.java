@@ -1,19 +1,16 @@
 package com.homework.nonton.activities;
 
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.text.HtmlCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Bundle;
-import android.text.Html;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Toast;
-
 import com.homework.nonton.R;
 import com.homework.nonton.databinding.ActivityTvDetailsBinding;
-import com.homework.nonton.models.TVDetailsModel;
+import com.homework.nonton.models.GenresItemTV;
 import com.homework.nonton.viewmodels.TVDetailsViewModel;
 
 import java.util.Locale;
@@ -22,7 +19,7 @@ public class TVDetailsActivity extends AppCompatActivity {
 
     private ActivityTvDetailsBinding activityTvDetailsBinding;
     private TVDetailsViewModel tvDetailsViewModel;
-    private TVDetailsModel tvDetailsModel;
+    private GenresItemTV genresItemTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +68,12 @@ public class TVDetailsActivity extends AppCompatActivity {
                     } else {
                         activityTvDetailsBinding.setGenre("N/A");
                     }
-                    activityTvDetailsBinding.setType(tvDetailsResponse.getType());
+                    activityTvDetailsBinding.setType(tvDetailsResponse.getStatus());
                     activityTvDetailsBinding.viewFadingDivider1.setVisibility(View.VISIBLE);
                     activityTvDetailsBinding.llMisc.setVisibility(View.VISIBLE);
                     activityTvDetailsBinding.viewFadingDivider2.setVisibility(View.VISIBLE);
                     loadBasicTVShows();
+                    activityTvDetailsBinding.tvDateTvDetails.setVisibility(View.VISIBLE);
                 }
         );
     }

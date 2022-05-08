@@ -1,5 +1,6 @@
 package com.homework.nonton.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -55,6 +56,9 @@ public class MoreMovieActivity extends AppCompatActivity implements MovieListene
                 }
             }
         });
+        activityMoreMovieBinding.ivBackMoreMovie.setOnClickListener(view -> {
+            onBackPressed();
+        });
         getPopularMovie();
     }
 
@@ -91,6 +95,12 @@ public class MoreMovieActivity extends AppCompatActivity implements MovieListene
 
     @Override
     public void onMovieClicked(MovieModel movieModel) {
-
+        Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
+        intent.putExtra("id", movieModel.getId());
+        intent.putExtra("name", movieModel.getTitle());
+        intent.putExtra("original_name", movieModel.getOriginalTitle());
+        intent.putExtra("language", movieModel.getOriginalLanguage());
+        intent.putExtra("date", movieModel.getReleaseDate());
+        startActivity(intent);
     }
 }

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.homework.nonton.activities.MoreMovieActivity;
 import com.homework.nonton.activities.MoreTVActivity;
+import com.homework.nonton.activities.MovieDetailsActivity;
 import com.homework.nonton.activities.TVDetailsActivity;
 import com.homework.nonton.adapters.MovieAdapterMain;
 import com.homework.nonton.adapters.TVAdapterMain;
@@ -119,6 +120,13 @@ public class HomeFragment extends Fragment implements TVListener, MovieListener 
 
     @Override
     public void onMovieClicked(MovieModel movieModel) {
-
+        Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
+        intent.putExtra("id", movieModel.getId());
+        intent.putExtra("name", movieModel.getTitle());
+        intent.putExtra("original_name", movieModel.getOriginalTitle());
+        intent.putExtra("language", movieModel.getOriginalLanguage());
+        intent.putExtra("date", movieModel.getReleaseDate());
+        startActivity(intent);
     }
+
 }
