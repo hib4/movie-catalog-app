@@ -1,4 +1,4 @@
-package com.homework.nonton.activities;
+package com.homework.nonton.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +10,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.homework.nonton.BuildConfig;
 import com.homework.nonton.R;
-import com.homework.nonton.adapters.TVAdapterMore;
+import com.homework.nonton.ui.adapters.TVAdapterMore;
 import com.homework.nonton.databinding.ActivityMoreTvBinding;
-import com.homework.nonton.listeners.TVListener;
+import com.homework.nonton.ui.listeners.TVListener;
 import com.homework.nonton.models.TVModel;
 import com.homework.nonton.viewmodels.TVViewModel;
 
@@ -61,7 +62,7 @@ public class MoreTVActivity extends AppCompatActivity implements TVListener {
 
     private void getPopularTVShows() {
         toggleLoading();
-        tvViewModel.getPopularTVShows("6336e4208132f6206aa0b05d04b1fda7", currentPage).observe(this, tvResponse -> {
+        tvViewModel.getPopularTVShows(BuildConfig.API_KEY, currentPage).observe(this, tvResponse -> {
             toggleLoading();
             if (tvResponse != null) {
                 totalAvailablePages = tvResponse.getTotalPages();

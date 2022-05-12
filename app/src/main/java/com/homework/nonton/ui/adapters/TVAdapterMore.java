@@ -1,4 +1,4 @@
-package com.homework.nonton.adapters;
+package com.homework.nonton.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,20 +9,20 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.homework.nonton.R;
-import com.homework.nonton.databinding.TvItemListMainBinding;
-import com.homework.nonton.listeners.TVListener;
+import com.homework.nonton.databinding.TvItemListMoreBinding;
+import com.homework.nonton.ui.listeners.TVListener;
 import com.homework.nonton.models.TVModel;
 
 import java.util.List;
 
-public class TVAdapterMain extends RecyclerView.Adapter<TVAdapterMain.TVViewHolder> {
+public class TVAdapterMore extends RecyclerView.Adapter<TVAdapterMore.TVViewHolder> {
 
     private Context context;
     private List<TVModel> tvModels;
     private LayoutInflater layoutInflater;
     private TVListener tvListener;
 
-    public TVAdapterMain(List<TVModel> tvModels, TVListener tvListener) {
+    public TVAdapterMore(List<TVModel> tvModels, TVListener tvListener) {
         this.tvModels = tvModels;
         this.tvListener = tvListener;
     }
@@ -34,8 +34,8 @@ public class TVAdapterMain extends RecyclerView.Adapter<TVAdapterMain.TVViewHold
             layoutInflater = LayoutInflater.from(parent.getContext());
         }
 
-        TvItemListMainBinding tvBinding = DataBindingUtil.inflate(layoutInflater, R.layout.tv_item_list_main, parent, false);
-        return new TVAdapterMain.TVViewHolder(tvBinding);
+        TvItemListMoreBinding tvBinding = DataBindingUtil.inflate(layoutInflater, R.layout.tv_item_list_more, parent, false);
+        return new TVViewHolder(tvBinding);
     }
 
     @Override
@@ -50,9 +50,9 @@ public class TVAdapterMain extends RecyclerView.Adapter<TVAdapterMain.TVViewHold
 
     class TVViewHolder extends RecyclerView.ViewHolder {
 
-        private TvItemListMainBinding tvItemListBinding;
+        private TvItemListMoreBinding tvItemListBinding;
 
-        public TVViewHolder(TvItemListMainBinding tvItemListBinding) {
+        public TVViewHolder(TvItemListMoreBinding tvItemListBinding) {
             super(tvItemListBinding.getRoot());
             this.tvItemListBinding = tvItemListBinding;
         }

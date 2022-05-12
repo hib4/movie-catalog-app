@@ -1,4 +1,4 @@
-package com.homework.nonton.activities;
+package com.homework.nonton.ui.activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.homework.nonton.BuildConfig;
 import com.homework.nonton.R;
 import com.homework.nonton.databinding.ActivityTvDetailsBinding;
 import com.homework.nonton.models.GenresItemTV;
@@ -37,7 +38,7 @@ public class TVDetailsActivity extends AppCompatActivity {
     private void getTVDetails() {
         activityTvDetailsBinding.setIsLoading(true);
         String ID = String.valueOf(getIntent().getIntExtra("id", -1));
-        tvDetailsViewModel.getPopularTVDetails(ID, "6336e4208132f6206aa0b05d04b1fda7").observe(
+        tvDetailsViewModel.getPopularTVDetails(ID, BuildConfig.API_KEY).observe(
                 this, tvDetailsResponse -> {
                     activityTvDetailsBinding.setIsLoading(false);
                     activityTvDetailsBinding.setImageURL(tvDetailsResponse.getPosterPath());
@@ -63,12 +64,12 @@ public class TVDetailsActivity extends AppCompatActivity {
                                     Double.parseDouble(tvDetailsResponse.getVoteAverage())
                             )
                     );
-                    if (tvDetailsResponse.getGenres() != null) {
-                        activityTvDetailsBinding.setGenre("Action");
-                    } else {
+                    if (tvDetailsResponse.getGenres().isEmpty()){
                         activityTvDetailsBinding.setGenre("N/A");
+                    } else {
+                        activityTvDetailsBinding.setGenre(tvDetailsResponse.getGenres().get(0).getName());
                     }
-                    activityTvDetailsBinding.setType(tvDetailsResponse.getStatus());
+                    activityTvDetailsBinding.setType(tvDetailsResponse.getType());
                     activityTvDetailsBinding.viewFadingDivider1.setVisibility(View.VISIBLE);
                     activityTvDetailsBinding.llMisc.setVisibility(View.VISIBLE);
                     activityTvDetailsBinding.viewFadingDivider2.setVisibility(View.VISIBLE);

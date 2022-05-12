@@ -1,4 +1,4 @@
-package com.homework.nonton.activities;
+package com.homework.nonton.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +10,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.homework.nonton.BuildConfig;
 import com.homework.nonton.R;
-import com.homework.nonton.adapters.MovieAdapterMore;
+import com.homework.nonton.ui.adapters.MovieAdapterMore;
 import com.homework.nonton.databinding.ActivityMoreMovieBinding;
-import com.homework.nonton.listeners.MovieListener;
+import com.homework.nonton.ui.listeners.MovieListener;
 import com.homework.nonton.models.MovieModel;
 import com.homework.nonton.viewmodels.MovieViewModel;
 
@@ -64,7 +65,7 @@ public class MoreMovieActivity extends AppCompatActivity implements MovieListene
 
     private void getPopularMovie() {
         toggleLoading();
-        movieViewModel.getPopularMovie("6336e4208132f6206aa0b05d04b1fda7", currentPage).observe(this, movieResponse -> {
+        movieViewModel.getPopularMovie(BuildConfig.API_KEY, currentPage).observe(this, movieResponse -> {
             toggleLoading();
             if (movieResponse != null) {
                 totalAvailablePages = movieResponse.getTotalPages();

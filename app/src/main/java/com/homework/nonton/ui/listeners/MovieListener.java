@@ -1,4 +1,4 @@
-package com.homework.nonton.listeners;
+package com.homework.nonton.ui.listeners;
 
 import com.homework.nonton.models.MovieModel;
 

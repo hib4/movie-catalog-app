@@ -1,4 +1,4 @@
-package com.homework.nonton.fragments;
+package com.homework.nonton.ui.fragments;
 
 import android.os.Bundle;
 

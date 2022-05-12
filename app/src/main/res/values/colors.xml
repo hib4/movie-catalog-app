@@ -17,4 +17,5 @@
     <color name="colorTextSecondary">#4A5B82</color>
     <color name="colorTextOther">#FAD303</color>
     <color name="colorThemeExtra">#FF5252</color>
+    <color name="colorSelector">@color/color_selector</color>
 </resources>

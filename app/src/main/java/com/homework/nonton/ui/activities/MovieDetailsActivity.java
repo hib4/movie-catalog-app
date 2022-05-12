@@ -1,4 +1,4 @@
-package com.homework.nonton.activities;
+package com.homework.nonton.ui.activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.homework.nonton.BuildConfig;
 import com.homework.nonton.R;
 import com.homework.nonton.databinding.ActivityMovieDetailsBinding;
 import com.homework.nonton.models.GenresItemMovie;
@@ -37,7 +38,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private void getMovieDetails() {
         activityMovieDetailsBinding.setIsLoading(true);
         String ID = String.valueOf(getIntent().getIntExtra("id", -1));
-        movieDetailsViewModel.getPopularMovieDetails(ID, "6336e4208132f6206aa0b05d04b1fda7").observe(
+        movieDetailsViewModel.getPopularMovieDetails(ID, BuildConfig.API_KEY).observe(
                 this, movieDetailsResponse -> {
                     activityMovieDetailsBinding.setIsLoading(false);
                     activityMovieDetailsBinding.setImageURL(movieDetailsResponse.getPosterPath());
@@ -62,10 +63,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
                                     Double.parseDouble(movieDetailsResponse.getVoteAverage())
                             )
                     );
-                    if (movieDetailsResponse.getGenres() != null) {
-                        activityMovieDetailsBinding.setGenre("Horror");
-                    } else {
+                    if (movieDetailsResponse.getGenres().isEmpty()) {
                         activityMovieDetailsBinding.setGenre("N/A");
+                    } else {
+                        activityMovieDetailsBinding.setGenre(movieDetailsResponse.getGenres().get(0).getName());
                     }
                     activityMovieDetailsBinding.setType(movieDetailsResponse.getStatus());
                     activityMovieDetailsBinding.viewFadingDivider1.setVisibility(View.VISIBLE);

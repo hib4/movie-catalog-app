@@ -1,4 +1,4 @@
-package com.homework.nonton.fragments;
+package com.homework.nonton.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,15 +9,16 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.homework.nonton.activities.MoreMovieActivity;
-import com.homework.nonton.activities.MoreTVActivity;
-import com.homework.nonton.activities.MovieDetailsActivity;
-import com.homework.nonton.activities.TVDetailsActivity;
-import com.homework.nonton.adapters.MovieAdapterMain;
-import com.homework.nonton.adapters.TVAdapterMain;
+import com.homework.nonton.BuildConfig;
+import com.homework.nonton.ui.activities.MoreMovieActivity;
+import com.homework.nonton.ui.activities.MoreTVActivity;
+import com.homework.nonton.ui.activities.MovieDetailsActivity;
+import com.homework.nonton.ui.activities.TVDetailsActivity;
+import com.homework.nonton.ui.adapters.MovieAdapterMain;
+import com.homework.nonton.ui.adapters.TVAdapterMain;
 import com.homework.nonton.databinding.FragmentHomeBinding;
-import com.homework.nonton.listeners.MovieListener;
-import com.homework.nonton.listeners.TVListener;
+import com.homework.nonton.ui.listeners.MovieListener;
+import com.homework.nonton.ui.listeners.TVListener;
 import com.homework.nonton.models.MovieModel;
 import com.homework.nonton.models.TVModel;
 import com.homework.nonton.viewmodels.MovieViewModel;
@@ -84,7 +85,7 @@ public class HomeFragment extends Fragment implements TVListener, MovieListener 
     private void getPopularTV() {
         fragmentHomeBinding.rlMain.setVisibility(View.GONE);
         fragmentHomeBinding.setIsLoading(true);
-        tvViewModel.getPopularTVShows("6336e4208132f6206aa0b05d04b1fda7", 1).observe(getViewLifecycleOwner(), tvResponse -> {
+        tvViewModel.getPopularTVShows(BuildConfig.API_KEY, 1).observe(getViewLifecycleOwner(), tvResponse -> {
             fragmentHomeBinding.rlMain.setVisibility(View.VISIBLE);
             fragmentHomeBinding.setIsLoading(false);
             if (tvResponse != null) {
@@ -97,7 +98,7 @@ public class HomeFragment extends Fragment implements TVListener, MovieListener 
     }
 
     private void getPopularMovie() {
-        movieViewModel.getPopularMovie("6336e4208132f6206aa0b05d04b1fda7", 1).observe(getViewLifecycleOwner(), movieResponse -> {
+        movieViewModel.getPopularMovie(BuildConfig.API_KEY, 1).observe(getViewLifecycleOwner(), movieResponse -> {
             if (movieResponse != null) {
                 if (movieResponse.getResults() != null) {
                     movieModels.addAll(movieResponse.getResults());

@@ -58,7 +58,7 @@
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
         android:background="@color/colorPrimary"
-        tools:context=".activities.TVDetailsActivity">
+        tools:context=".ui.activities.TVDetailsActivity">
 
         <ScrollView
             android:layout_width="match_parent"

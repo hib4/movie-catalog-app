@@ -1,4 +1,4 @@
-package com.homework.nonton.adapters;
+package com.homework.nonton.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.homework.nonton.R;
 import com.homework.nonton.databinding.MovieItemListMoreBinding;
-import com.homework.nonton.listeners.MovieListener;
+import com.homework.nonton.ui.listeners.MovieListener;
 import com.homework.nonton.models.MovieModel;
 
 import java.util.List;
