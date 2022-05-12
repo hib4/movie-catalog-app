@@ -60,6 +60,7 @@ public class MoreMovieActivity extends AppCompatActivity implements MovieListene
         activityMoreMovieBinding.ivBackMoreMovie.setOnClickListener(view -> {
             onBackPressed();
         });
+        activityMoreMovieBinding.ivSearchMoreMovie.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MovieSearchActivity.class)));
         getPopularMovie();
     }
 

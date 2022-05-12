@@ -57,6 +57,7 @@ public class MoreTVActivity extends AppCompatActivity implements TVListener {
                 }
             }
         });
+        activityMoreTvBinding.ivSearchMoreTv.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TVSearchActivity.class)));
         getPopularTVShows();
     }
 

@@ -15,6 +15,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".ui.activities.TVSearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.MovieSearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.MovieDetailsActivity"
             android:exported="false" />
         <activity
