@@ -6,7 +6,7 @@
 
         <variable
             name="movieModel"
-            type="com.homework.nonton.models.MovieModel" />
+            type="com.homework.moviecatalog.models.MovieModel" />
 
     </data>
 

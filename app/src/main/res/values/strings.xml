@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Nonton</string>
+    <string name="app_name">Movie Catalog</string>
     <string name="read_more">Read More</string>
     <string name="read_less">Read Less</string>
     <string name="tv_shows_most_popular">TV Shows | Most Popular</string>

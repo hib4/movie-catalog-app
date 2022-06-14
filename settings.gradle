@@ -13,5 +13,5 @@ dependencyResolutionManagement {
         jcenter()
     }
 }
-rootProject.name = "Nonton"
+rootProject.name = "Movie Catalog"
 include ':app'

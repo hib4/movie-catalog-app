@@ -10,7 +10,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.homework.nonton"
+        applicationId "com.homework.moviecatalog"
         minSdk 21
         targetSdk 32
         versionCode 1

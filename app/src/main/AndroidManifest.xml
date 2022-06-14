@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.homework.nonton">
+    package="com.homework.moviecatalog">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,23 +12,23 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Nonton"
+        android:theme="@style/Theme.MovieCatalog"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".ui.activities.TVSearchActivity"
+            android:name="com.homework.moviecatalog.ui.activities.TVSearchActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.MovieSearchActivity"
+            android:name="com.homework.moviecatalog.ui.activities.MovieSearchActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.MovieDetailsActivity"
+            android:name="com.homework.moviecatalog.ui.activities.MovieDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.MoreMovieActivity"
+            android:name="com.homework.moviecatalog.ui.activities.MoreMovieActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name="com.homework.moviecatalog.ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,10 +37,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.TVDetailsActivity"
+            android:name="com.homework.moviecatalog.ui.activities.TVDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.MoreTVActivity"
+            android:name="com.homework.moviecatalog.ui.activities.MoreTVActivity"
             android:exported="true" />
     </application>
 
