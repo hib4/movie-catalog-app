@@ -23,8 +23,8 @@ import java.util.List;
 
 public class MoreMovieActivity extends AppCompatActivity implements MovieListener {
 
-    private ActivityMoreMovieBinding activityMoreMovieBinding;
-    private MovieViewModel movieViewModel;
+    private ActivityMoreMovieBinding binding;
+    private MovieViewModel viewModel;
     private List<MovieModel> movieModels = new ArrayList<>();
     private MovieAdapterMore movieAdapterMore;
     private int currentPage = 1;
@@ -33,23 +33,23 @@ public class MoreMovieActivity extends AppCompatActivity implements MovieListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityMoreMovieBinding = DataBindingUtil.setContentView(this, R.layout.activity_more_movie);
-        doInitialization();
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_more_movie);
+        initialization();
     }
 
-    private void doInitialization() {
-        activityMoreMovieBinding.rvListMoreMovie.setHasFixedSize(true);
-        activityMoreMovieBinding.rvListMoreMovie.setItemViewCacheSize(20);
-        activityMoreMovieBinding.rvListMoreMovie.setDrawingCacheEnabled(true);
-        activityMoreMovieBinding.rvListMoreMovie.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+    private void initialization() {
+        binding.rvListMoreMovie.setHasFixedSize(true);
+        binding.rvListMoreMovie.setItemViewCacheSize(20);
+        binding.rvListMoreMovie.setDrawingCacheEnabled(true);
+        binding.rvListMoreMovie.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        viewModel = new ViewModelProvider(this).get(MovieViewModel.class);
         movieAdapterMore = new MovieAdapterMore(movieModels, this);
-        activityMoreMovieBinding.rvListMoreMovie.setAdapter(movieAdapterMore);
-        activityMoreMovieBinding.rvListMoreMovie.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.rvListMoreMovie.setAdapter(movieAdapterMore);
+        binding.rvListMoreMovie.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (!activityMoreMovieBinding.rvListMoreMovie.canScrollVertically(1)) {
+                if (!binding.rvListMoreMovie.canScrollVertically(1)) {
                     if (currentPage <= totalAvailablePages) {
                         currentPage += 1;
                         getPopularMovie();
@@ -57,16 +57,14 @@ public class MoreMovieActivity extends AppCompatActivity implements MovieListene
                 }
             }
         });
-        activityMoreMovieBinding.ivBackMoreMovie.setOnClickListener(view -> {
-            onBackPressed();
-        });
-        activityMoreMovieBinding.ivSearchMoreMovie.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MovieSearchActivity.class)));
+        binding.ivBackMoreMovie.setOnClickListener(view -> onBackPressed());
+        binding.ivSearchMoreMovie.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MovieSearchActivity.class)));
         getPopularMovie();
     }
 
     private void getPopularMovie() {
         toggleLoading();
-        movieViewModel.getPopularMovie(BuildConfig.API_KEY, currentPage).observe(this, movieResponse -> {
+        viewModel.getPopularMovie(BuildConfig.API_KEY, currentPage).observe(this, movieResponse -> {
             toggleLoading();
             if (movieResponse != null) {
                 totalAvailablePages = movieResponse.getTotalPages();
@@ -81,16 +79,16 @@ public class MoreMovieActivity extends AppCompatActivity implements MovieListene
 
     private void toggleLoading() {
         if (currentPage == 1) {
-            if (activityMoreMovieBinding.getIsLoading() != null && activityMoreMovieBinding.getIsLoading()) {
-                activityMoreMovieBinding.setIsLoading(false);
+            if (binding.getIsLoading() != null && binding.getIsLoading()) {
+                binding.setIsLoading(false);
             } else {
-                activityMoreMovieBinding.setIsLoading(true);
+                binding.setIsLoading(true);
             }
         } else {
-            if (activityMoreMovieBinding.getIsLoadingMore() != null && activityMoreMovieBinding.getIsLoadingMore()) {
-                activityMoreMovieBinding.setIsLoadingMore(false);
+            if (binding.getIsLoadingMore() != null && binding.getIsLoadingMore()) {
+                binding.setIsLoadingMore(false);
             } else {
-                activityMoreMovieBinding.setIsLoadingMore(true);
+                binding.setIsLoadingMore(true);
             }
         }
     }
@@ -98,11 +96,7 @@ public class MoreMovieActivity extends AppCompatActivity implements MovieListene
     @Override
     public void onMovieClicked(MovieModel movieModel) {
         Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
-        intent.putExtra("id", movieModel.getId());
-        intent.putExtra("name", movieModel.getTitle());
-        intent.putExtra("original_name", movieModel.getOriginalTitle());
-        intent.putExtra("language", movieModel.getOriginalLanguage());
-        intent.putExtra("date", movieModel.getReleaseDate());
+        intent.putExtra("movie", movieModel);
         startActivity(intent);
     }
 }

@@ -29,7 +29,7 @@ import java.util.TimerTask;
 
 public class MovieSearchActivity extends AppCompatActivity implements MovieListener {
 
-    private ActivityMovieSearchBinding activityMovieSearchBinding;
+    private ActivityMovieSearchBinding binding;
     private MovieSearchViewModel viewModel;
     private List<MovieModel> movieModels = new ArrayList<>();
     private MovieAdapterMore movieAdapter;
@@ -40,20 +40,20 @@ public class MovieSearchActivity extends AppCompatActivity implements MovieListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityMovieSearchBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_search);
-        doInitialization();
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_movie_search);
+        initialization();
     }
 
-    private void doInitialization() {
-        activityMovieSearchBinding.ivBackMovieSearch.setOnClickListener(view -> onBackPressed());
-        activityMovieSearchBinding.rvListSearchMovie.setHasFixedSize(true);
-        activityMovieSearchBinding.rvListSearchMovie.setItemViewCacheSize(20);
-        activityMovieSearchBinding.rvListSearchMovie.setDrawingCacheEnabled(true);
-        activityMovieSearchBinding.rvListSearchMovie.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+    private void initialization() {
+        binding.ivBackMovieSearch.setOnClickListener(view -> onBackPressed());
+        binding.rvListSearchMovie.setHasFixedSize(true);
+        binding.rvListSearchMovie.setItemViewCacheSize(20);
+        binding.rvListSearchMovie.setDrawingCacheEnabled(true);
+        binding.rvListSearchMovie.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         viewModel = new ViewModelProvider(this).get(MovieSearchViewModel.class);
         movieAdapter = new MovieAdapterMore(movieModels, this);
-        activityMovieSearchBinding.rvListSearchMovie.setAdapter(movieAdapter);
-        activityMovieSearchBinding.edSearchMovie.addTextChangedListener(new TextWatcher() {
+        binding.rvListSearchMovie.setAdapter(movieAdapter);
+        binding.edSearchMovie.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -86,21 +86,21 @@ public class MovieSearchActivity extends AppCompatActivity implements MovieListe
                 }
             }
         });
-        activityMovieSearchBinding.rvListSearchMovie.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.rvListSearchMovie.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (!activityMovieSearchBinding.rvListSearchMovie.canScrollVertically(1)) {
-                    if (!activityMovieSearchBinding.edSearchMovie.getText().toString().isEmpty()) {
+                if (!binding.rvListSearchMovie.canScrollVertically(1)) {
+                    if (!binding.edSearchMovie.getText().toString().isEmpty()) {
                         if (currentPage < totalAvailablePages) {
                             currentPage += 1;
-                            searchMovie(activityMovieSearchBinding.edSearchMovie.getText().toString());
+                            searchMovie(binding.edSearchMovie.getText().toString());
                         }
                     }
                 }
             }
         });
-        activityMovieSearchBinding.edSearchMovie.requestFocus();
+        binding.edSearchMovie.requestFocus();
     }
 
     private void searchMovie(String query) {
@@ -120,16 +120,16 @@ public class MovieSearchActivity extends AppCompatActivity implements MovieListe
 
     private void toggleLoading() {
         if (currentPage == 1) {
-            if (activityMovieSearchBinding.getIsLoading() != null && activityMovieSearchBinding.getIsLoading()) {
-                activityMovieSearchBinding.setIsLoading(false);
+            if (binding.getIsLoading() != null && binding.getIsLoading()) {
+                binding.setIsLoading(false);
             } else {
-                activityMovieSearchBinding.setIsLoading(true);
+                binding.setIsLoading(true);
             }
         } else {
-            if (activityMovieSearchBinding.getIsLoadingMore() != null && activityMovieSearchBinding.getIsLoadingMore()) {
-                activityMovieSearchBinding.setIsLoadingMore(false);
+            if (binding.getIsLoadingMore() != null && binding.getIsLoadingMore()) {
+                binding.setIsLoadingMore(false);
             } else {
-                activityMovieSearchBinding.setIsLoadingMore(true);
+                binding.setIsLoadingMore(true);
             }
         }
     }
@@ -137,11 +137,7 @@ public class MovieSearchActivity extends AppCompatActivity implements MovieListe
     @Override
     public void onMovieClicked(MovieModel movieModel) {
         Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
-        intent.putExtra("id", movieModel.getId());
-        intent.putExtra("name", movieModel.getTitle());
-        intent.putExtra("original_name", movieModel.getOriginalTitle());
-        intent.putExtra("language", movieModel.getOriginalLanguage());
-        intent.putExtra("date", movieModel.getReleaseDate());
+        intent.putExtra("movie", movieModel);
         startActivity(intent);
     }
 }

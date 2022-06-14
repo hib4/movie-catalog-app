@@ -28,16 +28,19 @@
             android:id="@+id/layout_header"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
+            android:layout_alignParentTop="true"
             android:background="@color/colorPrimaryDark"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="@dimen/_8sdp"
-            android:layout_alignParentTop="true">
+            android:padding="@dimen/_8sdp">
 
             <ImageView
                 android:id="@+id/iv_back_movie_search"
                 android:layout_width="@dimen/_24sdp"
                 android:layout_height="@dimen/_24sdp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:padding="@dimen/_2sdp"
                 android:src="@drawable/ic_back"
                 app:tint="@color/colorTextIcons" />
 
@@ -64,6 +67,7 @@
                 android:layout_width="@dimen/_24sdp"
                 android:layout_height="@dimen/_24sdp"
                 android:padding="@dimen/_2sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
                 android:src="@drawable/ic_search"
                 app:tint="@color/colorTextIcons" />
 

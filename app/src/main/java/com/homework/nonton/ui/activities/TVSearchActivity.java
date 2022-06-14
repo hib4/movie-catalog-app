@@ -29,7 +29,7 @@ import java.util.TimerTask;
 
 public class TVSearchActivity extends AppCompatActivity implements TVListener {
 
-    private ActivityTvSearchBinding activityTvSearchBinding;
+    private ActivityTvSearchBinding binding;
     private TVSearchViewModel viewModel;
     private List<TVModel> tvModels = new ArrayList<>();
     private TVAdapterMore tvAdapter;
@@ -40,20 +40,20 @@ public class TVSearchActivity extends AppCompatActivity implements TVListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityTvSearchBinding = DataBindingUtil.setContentView(this, R.layout.activity_tv_search);
-        doInitialization();
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_tv_search);
+        initialization();
     }
 
-    private void doInitialization() {
-        activityTvSearchBinding.ivBackTvSearch.setOnClickListener(view -> onBackPressed());
-        activityTvSearchBinding.rvListSearchTv.setHasFixedSize(true);
-        activityTvSearchBinding.rvListSearchTv.setItemViewCacheSize(20);
-        activityTvSearchBinding.rvListSearchTv.setDrawingCacheEnabled(true);
-        activityTvSearchBinding.rvListSearchTv.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+    private void initialization() {
+        binding.ivBackTvSearch.setOnClickListener(view -> onBackPressed());
+        binding.rvListSearchTv.setHasFixedSize(true);
+        binding.rvListSearchTv.setItemViewCacheSize(20);
+        binding.rvListSearchTv.setDrawingCacheEnabled(true);
+        binding.rvListSearchTv.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         viewModel = new ViewModelProvider(this).get(TVSearchViewModel.class);
         tvAdapter = new TVAdapterMore(tvModels, this);
-        activityTvSearchBinding.rvListSearchTv.setAdapter(tvAdapter);
-        activityTvSearchBinding.edSearchTv.addTextChangedListener(new TextWatcher() {
+        binding.rvListSearchTv.setAdapter(tvAdapter);
+        binding.edSearchTv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -86,21 +86,21 @@ public class TVSearchActivity extends AppCompatActivity implements TVListener {
                 }
             }
         });
-        activityTvSearchBinding.rvListSearchTv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.rvListSearchTv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (!activityTvSearchBinding.rvListSearchTv.canScrollVertically(1)) {
-                    if (!activityTvSearchBinding.edSearchTv.getText().toString().isEmpty()) {
+                if (!binding.rvListSearchTv.canScrollVertically(1)) {
+                    if (!binding.edSearchTv.getText().toString().isEmpty()) {
                         if (currentPage < totalAvailablePages) {
                             currentPage += 1;
-                            searchTV(activityTvSearchBinding.edSearchTv.getText().toString());
+                            searchTV(binding.edSearchTv.getText().toString());
                         }
                     }
                 }
             }
         });
-        activityTvSearchBinding.edSearchTv.requestFocus();
+        binding.edSearchTv.requestFocus();
     }
 
     private void searchTV(String query) {
@@ -120,16 +120,16 @@ public class TVSearchActivity extends AppCompatActivity implements TVListener {
 
     private void toggleLoading() {
         if (currentPage == 1) {
-            if (activityTvSearchBinding.getIsLoading() != null && activityTvSearchBinding.getIsLoading()) {
-                activityTvSearchBinding.setIsLoading(false);
+            if (binding.getIsLoading() != null && binding.getIsLoading()) {
+                binding.setIsLoading(false);
             } else {
-                activityTvSearchBinding.setIsLoading(true);
+                binding.setIsLoading(true);
             }
         } else {
-            if (activityTvSearchBinding.getIsLoadingMore() != null && activityTvSearchBinding.getIsLoadingMore()) {
-                activityTvSearchBinding.setIsLoadingMore(false);
+            if (binding.getIsLoadingMore() != null && binding.getIsLoadingMore()) {
+                binding.setIsLoadingMore(false);
             } else {
-                activityTvSearchBinding.setIsLoadingMore(true);
+                binding.setIsLoadingMore(true);
             }
         }
     }
@@ -137,11 +137,7 @@ public class TVSearchActivity extends AppCompatActivity implements TVListener {
     @Override
     public void onTVClicked(TVModel tvModel) {
         Intent intent = new Intent(getApplicationContext(), TVDetailsActivity.class);
-        intent.putExtra("id", tvModel.getId());
-        intent.putExtra("name", tvModel.getName());
-        intent.putExtra("original_name", tvModel.getOriginalName());
-        intent.putExtra("language", tvModel.getOriginalLanguage());
-        intent.putExtra("date", tvModel.getFirstAirDate());
+        intent.putExtra("tv", tvModel);
         startActivity(intent);
     }
 }

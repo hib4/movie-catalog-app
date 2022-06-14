@@ -1,6 +1,7 @@
 package com.homework.nonton.ui.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -8,21 +9,21 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.homework.nonton.R;
-import com.homework.nonton.databinding.MovieItemListMainBinding;
+import com.homework.nonton.databinding.MovieItemListMoreBinding;
 import com.homework.nonton.models.MovieModel;
-import com.homework.nonton.ui.listeners.MovieListener;
+import com.homework.nonton.ui.listeners.FavouriteListener;
 
 import java.util.List;
 
-public class MovieAdapterMain extends RecyclerView.Adapter<MovieAdapterMain.MovieViewHolder> {
+public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MovieViewHolder> {
 
     private List<MovieModel> movieModels;
     private LayoutInflater layoutInflater;
-    private MovieListener movieListener;
+    private FavouriteListener favouriteListener;
 
-    public MovieAdapterMain(List<MovieModel> movieModels, MovieListener movieListener) {
+    public FavouriteAdapter(List<MovieModel> movieModels, FavouriteListener favouriteListener) {
         this.movieModels = movieModels;
-        this.movieListener = movieListener;
+        this.favouriteListener = favouriteListener;
     }
 
     @NonNull
@@ -32,8 +33,8 @@ public class MovieAdapterMain extends RecyclerView.Adapter<MovieAdapterMain.Movi
             layoutInflater = LayoutInflater.from(parent.getContext());
         }
 
-        MovieItemListMainBinding movieBinding = DataBindingUtil.inflate(layoutInflater, R.layout.movie_item_list_main, parent, false);
-        return new MovieAdapterMain.MovieViewHolder(movieBinding);
+        MovieItemListMoreBinding movieBinding = DataBindingUtil.inflate(layoutInflater, R.layout.movie_item_list_more, parent, false);
+        return new FavouriteAdapter.MovieViewHolder(movieBinding);
     }
 
     @Override
@@ -48,9 +49,9 @@ public class MovieAdapterMain extends RecyclerView.Adapter<MovieAdapterMain.Movi
 
     class MovieViewHolder extends RecyclerView.ViewHolder {
 
-        private MovieItemListMainBinding movieItemListBinding;
+        private MovieItemListMoreBinding movieItemListBinding;
 
-        public MovieViewHolder(MovieItemListMainBinding movieItemListBinding) {
+        public MovieViewHolder(MovieItemListMoreBinding movieItemListBinding) {
             super(movieItemListBinding.getRoot());
             this.movieItemListBinding = movieItemListBinding;
         }
@@ -58,7 +59,9 @@ public class MovieAdapterMain extends RecyclerView.Adapter<MovieAdapterMain.Movi
         public void bindMoviePopular(MovieModel movieModel) {
             movieItemListBinding.setMovieModel(movieModel);
             movieItemListBinding.executePendingBindings();
-            movieItemListBinding.getRoot().setOnClickListener(view -> movieListener.onMovieClicked(movieModel));
+            movieItemListBinding.getRoot().setOnClickListener(view -> favouriteListener.onMovieClicked(movieModel));
+            movieItemListBinding.ivRemove.setOnClickListener(view -> favouriteListener.removeMovieFromFavourite(movieModel, getAdapterPosition()));
+            movieItemListBinding.ivRemove.setVisibility(View.VISIBLE);
         }
 
     }

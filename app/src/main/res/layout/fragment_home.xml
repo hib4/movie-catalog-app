@@ -21,8 +21,8 @@
 
         <ProgressBar
             android:id="@+id/pb_main"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:visibility="@{isLoading ? View.VISIBLE : View.GONE, default = gone}"
             android:layout_centerInParent="true" />
@@ -80,26 +80,24 @@
 
                 </LinearLayout>
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/iv_slide_main"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/view_pager"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_140sdp"
+                    android:layout_height="@dimen/_150sdp"
                     android:layout_below="@id/ll_title_main"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginStart="@dimen/_16sdp"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:layout_marginEnd="@dimen/_16sdp"
-                    android:layout_marginBottom="@dimen/_16sdp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/moonkngiht"
-                    app:riv_corner_radius="@dimen/_7sdp" />
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:layout_marginBottom="@dimen/_12sdp"
+                    android:clipToPadding="false"
+                    android:paddingStart="@dimen/_16sdp"
+                    android:paddingEnd="@dimen/_16sdp" />
 
                 <LinearLayout
                     android:id="@+id/ll_tv_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/iv_slide_main"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_below="@id/view_pager"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/_8sdp">
@@ -135,9 +133,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_tv_main"
                     android:layout_marginTop="@dimen/_1sdp"
+                    android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:paddingStart="@dimen/_10sdp"
-                    android:clipToPadding="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <LinearLayout

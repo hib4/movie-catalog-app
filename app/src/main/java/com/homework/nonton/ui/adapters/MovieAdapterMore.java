@@ -1,6 +1,5 @@
 package com.homework.nonton.ui.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -10,14 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.homework.nonton.R;
 import com.homework.nonton.databinding.MovieItemListMoreBinding;
-import com.homework.nonton.ui.listeners.MovieListener;
 import com.homework.nonton.models.MovieModel;
+import com.homework.nonton.ui.listeners.MovieListener;
 
 import java.util.List;
 
 public class MovieAdapterMore extends RecyclerView.Adapter<MovieAdapterMore.MovieViewHolder> {
 
-    private Context context;
     private List<MovieModel> movieModels;
     private LayoutInflater layoutInflater;
     private MovieListener movieListener;

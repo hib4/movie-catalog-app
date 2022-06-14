@@ -1,6 +1,5 @@
 package com.homework.nonton.ui.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -10,14 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.homework.nonton.R;
 import com.homework.nonton.databinding.TvItemListMainBinding;
-import com.homework.nonton.ui.listeners.TVListener;
 import com.homework.nonton.models.TVModel;
+import com.homework.nonton.ui.listeners.TVListener;
 
 import java.util.List;
 
 public class TVAdapterMain extends RecyclerView.Adapter<TVAdapterMain.TVViewHolder> {
 
-    private Context context;
     private List<TVModel> tvModels;
     private LayoutInflater layoutInflater;
     private TVListener tvListener;
@@ -64,4 +62,5 @@ public class TVAdapterMain extends RecyclerView.Adapter<TVAdapterMain.TVViewHold
         }
 
     }
+
 }

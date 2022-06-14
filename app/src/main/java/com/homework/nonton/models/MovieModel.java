@@ -1,10 +1,14 @@
 package com.homework.nonton.models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.io.Serializable;
 
-public class MovieModel {
+@Entity(tableName = "movie")
+public class MovieModel implements Serializable {
 
 	@SerializedName("overview")
 	private String overview;
@@ -21,9 +25,6 @@ public class MovieModel {
 	@SerializedName("title")
 	private String title;
 
-	@SerializedName("genre_ids")
-	private List<Integer> genreIds;
-
 	@SerializedName("poster_path")
 	private String posterPath;
 
@@ -39,6 +40,7 @@ public class MovieModel {
 	@SerializedName("vote_average")
 	private double voteAverage;
 
+	@PrimaryKey
 	@SerializedName("id")
 	private int id;
 
@@ -66,10 +68,6 @@ public class MovieModel {
 
 	public String getTitle(){
 		return title;
-	}
-
-	public List<Integer> getGenreIds(){
-		return genreIds;
 	}
 
 	public String getPosterPath(){
@@ -104,4 +102,55 @@ public class MovieModel {
 		return voteCount;
 	}
 
+	public void setOverview(String overview) {
+		this.overview = overview;
+	}
+
+	public void setOriginalLanguage(String originalLanguage) {
+		this.originalLanguage = originalLanguage;
+	}
+
+	public void setOriginalTitle(String originalTitle) {
+		this.originalTitle = originalTitle;
+	}
+
+	public void setVideo(boolean video) {
+		this.video = video;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setPosterPath(String posterPath) {
+		this.posterPath = posterPath;
+	}
+
+	public void setBackdropPath(String backdropPath) {
+		this.backdropPath = backdropPath;
+	}
+
+	public void setReleaseDate(String releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+	public void setPopularity(double popularity) {
+		this.popularity = popularity;
+	}
+
+	public void setVoteAverage(double voteAverage) {
+		this.voteAverage = voteAverage;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setAdult(boolean adult) {
+		this.adult = adult;
+	}
+
+	public void setVoteCount(int voteCount) {
+		this.voteCount = voteCount;
+	}
 }

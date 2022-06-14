@@ -23,8 +23,8 @@ import java.util.List;
 
 public class MoreTVActivity extends AppCompatActivity implements TVListener {
 
-    private ActivityMoreTvBinding activityMoreTvBinding;
-    private TVViewModel tvViewModel;
+    private ActivityMoreTvBinding binding;
+    private TVViewModel viewModel;
     private List<TVModel> tvModels = new ArrayList<>();
     private TVAdapterMore tvAdapterMore;
     private int currentPage = 1;
@@ -33,23 +33,23 @@ public class MoreTVActivity extends AppCompatActivity implements TVListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityMoreTvBinding = DataBindingUtil.setContentView(this, R.layout.activity_more_tv);
-        doInitialization();
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_more_tv);
+        initialization();
     }
 
-    private void doInitialization() {
-        activityMoreTvBinding.rvListMoreTv.setHasFixedSize(true);
-        activityMoreTvBinding.rvListMoreTv.setItemViewCacheSize(20);
-        activityMoreTvBinding.rvListMoreTv.setDrawingCacheEnabled(true);
-        activityMoreTvBinding.rvListMoreTv.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        tvViewModel = new ViewModelProvider(this).get(TVViewModel.class);
+    private void initialization() {
+        binding.rvListMoreTv.setHasFixedSize(true);
+        binding.rvListMoreTv.setItemViewCacheSize(20);
+        binding.rvListMoreTv.setDrawingCacheEnabled(true);
+        binding.rvListMoreTv.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        viewModel = new ViewModelProvider(this).get(TVViewModel.class);
         tvAdapterMore = new TVAdapterMore(tvModels, this);
-        activityMoreTvBinding.rvListMoreTv.setAdapter(tvAdapterMore);
-        activityMoreTvBinding.rvListMoreTv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.rvListMoreTv.setAdapter(tvAdapterMore);
+        binding.rvListMoreTv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (!activityMoreTvBinding.rvListMoreTv.canScrollVertically(1)) {
+                if (!binding.rvListMoreTv.canScrollVertically(1)) {
                     if (currentPage <= totalAvailablePages) {
                         currentPage += 1;
                         getPopularTVShows();
@@ -57,13 +57,14 @@ public class MoreTVActivity extends AppCompatActivity implements TVListener {
                 }
             }
         });
-        activityMoreTvBinding.ivSearchMoreTv.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TVSearchActivity.class)));
+        binding.ivBackMoreTv.setOnClickListener(view -> onBackPressed());
+        binding.ivSearchMoreTv.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), TVSearchActivity.class)));
         getPopularTVShows();
     }
 
     private void getPopularTVShows() {
         toggleLoading();
-        tvViewModel.getPopularTVShows(BuildConfig.API_KEY, currentPage).observe(this, tvResponse -> {
+        viewModel.getPopularTVShows(BuildConfig.API_KEY, currentPage).observe(this, tvResponse -> {
             toggleLoading();
             if (tvResponse != null) {
                 totalAvailablePages = tvResponse.getTotalPages();
@@ -78,16 +79,16 @@ public class MoreTVActivity extends AppCompatActivity implements TVListener {
 
     private void toggleLoading() {
         if (currentPage == 1) {
-            if (activityMoreTvBinding.getIsLoading() != null && activityMoreTvBinding.getIsLoading()) {
-                activityMoreTvBinding.setIsLoading(false);
+            if (binding.getIsLoading() != null && binding.getIsLoading()) {
+                binding.setIsLoading(false);
             } else {
-                activityMoreTvBinding.setIsLoading(true);
+                binding.setIsLoading(true);
             }
         } else {
-            if (activityMoreTvBinding.getIsLoadingMore() != null && activityMoreTvBinding.getIsLoadingMore()) {
-                activityMoreTvBinding.setIsLoadingMore(false);
+            if (binding.getIsLoadingMore() != null && binding.getIsLoadingMore()) {
+                binding.setIsLoadingMore(false);
             } else {
-                activityMoreTvBinding.setIsLoadingMore(true);
+                binding.setIsLoadingMore(true);
             }
         }
     }
@@ -95,11 +96,7 @@ public class MoreTVActivity extends AppCompatActivity implements TVListener {
     @Override
     public void onTVClicked(TVModel tvModel) {
         Intent intent = new Intent(getApplicationContext(), TVDetailsActivity.class);
-        intent.putExtra("id", tvModel.getId());
-        intent.putExtra("name", tvModel.getName());
-        intent.putExtra("original_name", tvModel.getOriginalName());
-        intent.putExtra("language", tvModel.getOriginalLanguage());
-        intent.putExtra("date", tvModel.getFirstAirDate());
+        intent.putExtra("tv", tvModel);
         startActivity(intent);
     }
 }

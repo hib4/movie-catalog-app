@@ -1,66 +1,108 @@
 package com.homework.nonton.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.homework.nonton.R;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FavouriteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FavouriteFragment extends Fragment {
+import com.homework.nonton.databinding.FragmentFavouriteBinding;
+import com.homework.nonton.models.MovieModel;
+import com.homework.nonton.ui.activities.MovieDetailsActivity;
+import com.homework.nonton.ui.adapters.FavouriteAdapter;
+import com.homework.nonton.ui.listeners.FavouriteListener;
+import com.homework.nonton.utilities.TempDataHolder;
+import com.homework.nonton.viewmodels.FavouriteViewModel;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.util.ArrayList;
+import java.util.List;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+
+public class FavouriteFragment extends Fragment implements FavouriteListener {
+
+    private FragmentFavouriteBinding binding;
+    private FavouriteViewModel viewModel;
+    private FavouriteAdapter adapter;
+    private List<MovieModel> movieModels;
 
     public FavouriteFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FavouriteFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FavouriteFragment newInstance(String param1, String param2) {
-        FavouriteFragment fragment = new FavouriteFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentFavouriteBinding.inflate(inflater, container, false);
+
+        initialization();
+
+        return binding.getRoot();
+    }
+
+    private void initialization() {
+        viewModel = new ViewModelProvider(this).get(FavouriteViewModel.class);
+        movieModels = new ArrayList<>();
+        loadFavourite();
+    }
+
+    private void loadFavourite() {
+        binding.setIsLoading(true);
+        CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(viewModel.loadFavourite().subscribeOn(Schedulers.computation())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(movieModels -> {
+            binding.setIsLoading(false);
+            if (this.movieModels.size() > 0) {
+                this.movieModels.clear();
+            }
+            this.movieModels.addAll(movieModels);
+            adapter = new FavouriteAdapter(this.movieModels, this);
+            binding.rvListFavourite.setAdapter(adapter);
+            binding.rvListFavourite.setVisibility(View.VISIBLE);
+            compositeDisposable.dispose();
+            if (this.movieModels.isEmpty()) {
+                binding.tvEmptyFavourite.setVisibility(View.VISIBLE);
+            }
+        }));
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onResume() {
+        super.onResume();
+        if (TempDataHolder.IS_FAVOURITE_UPDATED) {
+            loadFavourite();
+            TempDataHolder.IS_FAVOURITE_UPDATED = true;
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favourite, container, false);
+    public void onMovieClicked(MovieModel movieModel) {
+        Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
+        intent.putExtra("movie", movieModel);
+        startActivity(intent);
     }
+
+    @Override
+    public void removeMovieFromFavourite(MovieModel movieModel, int position) {
+        CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(viewModel.removeMovieFromFavourite(movieModel)
+        .subscribeOn(Schedulers.computation())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(() -> {
+            movieModels.remove(position);
+            adapter.notifyItemRemoved(position);
+            adapter.notifyItemRangeChanged(position, adapter.getItemCount());
+            compositeDisposable.dispose();
+            if (movieModels.isEmpty()) {
+                binding.tvEmptyFavourite.setVisibility(View.VISIBLE);
+            }
+        }));
+    }
+
 }

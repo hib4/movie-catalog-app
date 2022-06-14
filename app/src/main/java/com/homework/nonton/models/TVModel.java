@@ -1,9 +1,14 @@
 package com.homework.nonton.models;
 
-import java.util.List;
+import androidx.room.Entity;
+
 import com.google.gson.annotations.SerializedName;
 
-public class TVModel {
+import java.io.Serializable;
+import java.util.List;
+
+@Entity(tableName = "tv")
+public class TVModel implements Serializable {
 
 	@SerializedName("first_air_date")
 	private String firstAirDate;

@@ -8,19 +8,23 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
 
 import com.homework.nonton.BuildConfig;
+import com.homework.nonton.databinding.FragmentHomeBinding;
+import com.homework.nonton.models.MovieModel;
+import com.homework.nonton.models.TVModel;
 import com.homework.nonton.ui.activities.MoreMovieActivity;
 import com.homework.nonton.ui.activities.MoreTVActivity;
 import com.homework.nonton.ui.activities.MovieDetailsActivity;
 import com.homework.nonton.ui.activities.TVDetailsActivity;
 import com.homework.nonton.ui.adapters.MovieAdapterMain;
+import com.homework.nonton.ui.adapters.SliderAdapter;
 import com.homework.nonton.ui.adapters.TVAdapterMain;
-import com.homework.nonton.databinding.FragmentHomeBinding;
 import com.homework.nonton.ui.listeners.MovieListener;
 import com.homework.nonton.ui.listeners.TVListener;
-import com.homework.nonton.models.MovieModel;
-import com.homework.nonton.models.TVModel;
 import com.homework.nonton.viewmodels.MovieViewModel;
 import com.homework.nonton.viewmodels.TVViewModel;
 
@@ -29,7 +33,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements TVListener, MovieListener {
 
-    private FragmentHomeBinding fragmentHomeBinding;
+    private FragmentHomeBinding binding;
 
     private TVViewModel tvViewModel;
     private List<TVModel> tvModels = new ArrayList<>();
@@ -39,55 +43,59 @@ public class HomeFragment extends Fragment implements TVListener, MovieListener 
     private List<MovieModel> movieModels = new ArrayList<>();
     private MovieAdapterMain movieAdapterMain;
 
+    private SliderAdapter sliderAdapter;
+
     public HomeFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        doInitializationTV();
-        doInitializationMovie();
+        initializationTV();
+        initializationMovie();
+        initializationViewPager();
 
-        return fragmentHomeBinding.getRoot();
+        return binding.getRoot();
     }
 
-    private void doInitializationTV() {
-        fragmentHomeBinding.rvListTvMain.setHasFixedSize(true);
-        fragmentHomeBinding.rvListTvMain.setItemViewCacheSize(20);
-        fragmentHomeBinding.rvListTvMain.setDrawingCacheEnabled(true);
-        fragmentHomeBinding.rvListTvMain.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+    private void initializationTV() {
+        binding.rvListTvMain.setHasFixedSize(true);
+        binding.rvListTvMain.setItemViewCacheSize(20);
+        binding.rvListTvMain.setDrawingCacheEnabled(true);
+        binding.rvListTvMain.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         tvViewModel = new ViewModelProvider(this).get(TVViewModel.class);
         tvAdapterMain = new TVAdapterMain(tvModels, this);
-        fragmentHomeBinding.rvListTvMain.setAdapter(tvAdapterMain);
-        fragmentHomeBinding.ivMoreTvMain.setOnClickListener(view -> {
+        binding.rvListTvMain.setAdapter(tvAdapterMain);
+        binding.ivMoreTvMain.setOnClickListener(view -> {
             Intent intent = new Intent(getContext(), MoreTVActivity.class);
             startActivity(intent);
         });
         getPopularTV();
     }
 
-    private void doInitializationMovie() {
-        fragmentHomeBinding.rvListMovieMain.setHasFixedSize(true);
-        fragmentHomeBinding.rvListMovieMain.setItemViewCacheSize(20);
-        fragmentHomeBinding.rvListMovieMain.setDrawingCacheEnabled(true);
-        fragmentHomeBinding.rvListMovieMain.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+    private void initializationMovie() {
+        binding.rvListMovieMain.setHasFixedSize(true);
+        binding.rvListMovieMain.setItemViewCacheSize(20);
+        binding.rvListMovieMain.setDrawingCacheEnabled(true);
+        binding.rvListMovieMain.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
         movieAdapterMain = new MovieAdapterMain(movieModels, this);
-        fragmentHomeBinding.rvListMovieMain.setAdapter(movieAdapterMain);
-        fragmentHomeBinding.ivMoreMovieMain.setOnClickListener(view -> {
+        binding.rvListMovieMain.setAdapter(movieAdapterMain);
+        binding.ivMoreMovieMain.setOnClickListener(view -> {
             Intent intent = new Intent(getContext(), MoreMovieActivity.class);
             startActivity(intent);
         });
+
         getPopularMovie();
     }
 
     private void getPopularTV() {
-        fragmentHomeBinding.rlMain.setVisibility(View.GONE);
-        fragmentHomeBinding.setIsLoading(true);
+        binding.rlMain.setVisibility(View.GONE);
+        binding.setIsLoading(true);
         tvViewModel.getPopularTVShows(BuildConfig.API_KEY, 1).observe(getViewLifecycleOwner(), tvResponse -> {
-            fragmentHomeBinding.rlMain.setVisibility(View.VISIBLE);
-            fragmentHomeBinding.setIsLoading(false);
+            binding.rlMain.setVisibility(View.VISIBLE);
+            binding.setIsLoading(false);
             if (tvResponse != null) {
                 if (tvResponse.getResults() != null) {
                     tvModels.addAll(tvResponse.getResults());
@@ -103,30 +111,37 @@ public class HomeFragment extends Fragment implements TVListener, MovieListener 
                 if (movieResponse.getResults() != null) {
                     movieModels.addAll(movieResponse.getResults());
                     movieAdapterMain.notifyDataSetChanged();
+                    sliderAdapter.notifyDataSetChanged();
                 }
             }
         });
     }
 
+    private void initializationViewPager() {
+        sliderAdapter = new SliderAdapter(movieModels, binding.viewPager);
+        binding.viewPager.setAdapter(sliderAdapter);
+        binding.viewPager.setClipToPadding(false);
+        binding.viewPager.setClipChildren(false);
+        binding.viewPager.setOffscreenPageLimit(3);
+        binding.viewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+
+        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
+        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
+        binding.viewPager.setPageTransformer(compositePageTransformer);
+        getPopularMovie();
+    }
+
     @Override
     public void onTVClicked(TVModel tvModel) {
         Intent intent = new Intent(getContext(), TVDetailsActivity.class);
-        intent.putExtra("id", tvModel.getId());
-        intent.putExtra("name", tvModel.getName());
-        intent.putExtra("original_name", tvModel.getOriginalName());
-        intent.putExtra("language", tvModel.getOriginalLanguage());
-        intent.putExtra("date", tvModel.getFirstAirDate());
+        intent.putExtra("tv", tvModel);
         startActivity(intent);
     }
 
     @Override
     public void onMovieClicked(MovieModel movieModel) {
         Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
-        intent.putExtra("id", movieModel.getId());
-        intent.putExtra("name", movieModel.getTitle());
-        intent.putExtra("original_name", movieModel.getOriginalTitle());
-        intent.putExtra("language", movieModel.getOriginalLanguage());
-        intent.putExtra("date", movieModel.getReleaseDate());
+        intent.putExtra("movie", movieModel);
         startActivity(intent);
     }
 

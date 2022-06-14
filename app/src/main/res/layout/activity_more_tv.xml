@@ -34,6 +34,16 @@
             android:padding="@dimen/_8sdp"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/iv_back_more_tv"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/ic_back"
+                app:tint="@color/colorTextIcons" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
