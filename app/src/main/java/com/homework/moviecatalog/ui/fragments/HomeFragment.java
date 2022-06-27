@@ -128,7 +128,6 @@ public class HomeFragment extends Fragment implements TVListener, MovieListener 
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
         compositePageTransformer.addTransformer(new MarginPageTransformer(40));
         binding.viewPager.setPageTransformer(compositePageTransformer);
-        getPopularMovie();
     }
 
     @Override
